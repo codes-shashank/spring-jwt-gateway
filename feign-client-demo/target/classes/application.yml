@@ -1,0 +1,32 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: feign-client-demo
+
+# URL of the API Gateway — all Feign calls route through here
+feign:
+  client:
+    config:
+      default:
+        # How long to wait for a connection to the gateway (ms)
+        connect-timeout: 5000
+        # How long to wait for a response (ms)
+        read-timeout: 10000
+        # Logging level: NONE, BASIC, HEADERS, FULL
+        logger-level: full
+
+# Enable Feign client logging (must also set logger level in FeignConfig)
+logging:
+  level:
+    com.example: DEBUG
+    # This package logs the actual HTTP request/response from Feign
+    com.example.client: DEBUG
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true

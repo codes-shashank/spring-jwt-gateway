@@ -1,0 +1,73 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+
+        # ─────────────────────────────────────────────────────
+        # AUTH SERVICE — public, no JWT required
+        # ─────────────────────────────────────────────────────
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/auth/**
+
+        # ─────────────────────────────────────────────────────
+        # USER SERVICE — requires valid JWT (any role)
+        # ─────────────────────────────────────────────────────
+        - id: user-service-public
+          uri: lb://user-service
+          predicates:
+            - Path=/api/users/**
+          filters:
+            - JwtAuthenticationFilter
+
+        # ─────────────────────────────────────────────────────
+        # USER SERVICE ADMIN — requires ROLE_ADMIN
+        # ─────────────────────────────────────────────────────
+        - id: user-service-admin
+          uri: lb://user-service
+          predicates:
+            - Path=/api/admin/**
+          filters:
+            - JwtAuthenticationFilter
+            - name: RoleAuthorizationFilter
+              args:
+                requiredRole: ROLE_ADMIN
+
+      # Global CORS configuration
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+
+      # Default filters applied to all routes
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+
+jwt:
+  # Must match the secret used in auth-service and user-service!
+  secret: dGhpcy1pcy1hLXZlcnktc2VjdXJlLWp3dC1zZWNyZXQta2V5LTI1NmJpdHM=
+
+logging:
+  level:
+    com.example: DEBUG
+    org.springframework.cloud.gateway: DEBUG
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true

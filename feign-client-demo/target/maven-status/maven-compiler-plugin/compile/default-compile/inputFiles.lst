@@ -1,0 +1,12 @@
+D:\coding_world\workspace\spring-jwt-gateway-v2\spring-jwt-gateway\feign-client-demo\src\main\java\com\example\FeignClientDemoApplication.java
+D:\coding_world\workspace\spring-jwt-gateway-v2\spring-jwt-gateway\feign-client-demo\src\main\java\com\example\client\AuthClient.java
+D:\coding_world\workspace\spring-jwt-gateway-v2\spring-jwt-gateway\feign-client-demo\src\main\java\com\example\model\LoginRequest.java
+D:\coding_world\workspace\spring-jwt-gateway-v2\spring-jwt-gateway\feign-client-demo\src\main\java\com\example\model\RegisterRequest.java
+D:\coding_world\workspace\spring-jwt-gateway-v2\spring-jwt-gateway\feign-client-demo\src\main\java\com\example\config\TokenStore.java
+D:\coding_world\workspace\spring-jwt-gateway-v2\spring-jwt-gateway\feign-client-demo\src\main\java\com\example\model\UserProfile.java
+D:\coding_world\workspace\spring-jwt-gateway-v2\spring-jwt-gateway\feign-client-demo\src\main\java\com\example\controller\DemoController.java
+D:\coding_world\workspace\spring-jwt-gateway-v2\spring-jwt-gateway\feign-client-demo\src\main\java\com\example\client\UserClient.java
+D:\coding_world\workspace\spring-jwt-gateway-v2\spring-jwt-gateway\feign-client-demo\src\main\java\com\example\config\FeignConfig.java
+D:\coding_world\workspace\spring-jwt-gateway-v2\spring-jwt-gateway\feign-client-demo\src\main\java\com\example\model\AuthResponse.java
+D:\coding_world\workspace\spring-jwt-gateway-v2\spring-jwt-gateway\feign-client-demo\src\main\java\com\example\config\FeignAuthInterceptor.java
+D:\coding_world\workspace\spring-jwt-gateway-v2\spring-jwt-gateway\feign-client-demo\src\main\java\com\example\service\DemoService.java

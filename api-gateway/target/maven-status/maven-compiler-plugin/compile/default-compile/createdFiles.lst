@@ -1,7 +1,0 @@
-com\example\filter\RoleAuthorizationFilter.class
-com\example\filter\JwtAuthenticationFilter.class
-com\example\config\JwtValidator.class
-com\example\ApiGatewayApplication.class
-com\example\filter\JwtAuthenticationFilter$Config.class
-com\example\filter\RequestLoggingFilter.class
-com\example\filter\RoleAuthorizationFilter$Config.class

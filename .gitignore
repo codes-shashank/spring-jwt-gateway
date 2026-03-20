@@ -1,0 +1,36 @@
+# Maven - all modules
+**/target/
+
+# Gradle (if any module uses Gradle)
+**/.gradle/
+**/build/
+
+# IDE - IntelliJ
+**/.idea/
+**/*.iml
+*.iml
+
+# IDE - Eclipse
+**/.classpath
+**/.project
+**/.settings/
+
+# Compiled Java classes
+**/*.class
+
+# JAR/WAR/EAR files
+**/*.jar
+**/*.war
+**/*.ear
+
+# Log files
+**/*.log
+**/logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment / secrets
+**/.env
+**/application-local.properties

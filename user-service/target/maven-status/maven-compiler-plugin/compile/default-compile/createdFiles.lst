@@ -1,7 +1,0 @@
-com\example\UserServiceApplication.class
-com\example\controller\AdminController.class
-com\example\config\SecurityConfig.class
-com\example\model\UserProfile$UserProfileBuilder.class
-com\example\model\UserProfile.class
-com\example\controller\UserController.class
-com\example\config\JwtAuthFilter.class

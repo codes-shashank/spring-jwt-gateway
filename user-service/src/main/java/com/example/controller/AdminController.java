@@ -1,6 +1,11 @@
 package com.example.controller;
 
 import com.example.model.UserProfile;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,12 +24,19 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/api/admin")
+@Tag(name = "Admin", description = "Admin only operations — requires ROLE_ADMIN")
 public class AdminController {
 
     /**
      * GET /api/admin/dashboard
      * Admin dashboard summary (ROLE_ADMIN only).
      */
+    @Operation(summary = "Admin dashboard summary",
+            security = @SecurityRequirement(name = "Bearer Token"))
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Dashboard data"),
+            @ApiResponse(responseCode = "403", description = "Access denied — ROLE_ADMIN required")
+    })
     @GetMapping("/dashboard")
     public ResponseEntity<?> dashboard(
             @RequestHeader(value = "X-Auth-Username", required = false) String adminUser) {
@@ -44,6 +56,8 @@ public class AdminController {
      * GET /api/admin/users
      * Full user list with sensitive details (ROLE_ADMIN only).
      */
+    @Operation(summary = "Get all users with full details",
+            security = @SecurityRequirement(name = "Bearer Token"))
     @GetMapping("/users")
     public ResponseEntity<?> getAllUsersAdmin(
             @RequestHeader(value = "X-Auth-Username", required = false) String adminUser) {
@@ -69,6 +83,13 @@ public class AdminController {
      * DELETE /api/admin/users/{id}
      * Delete a user (ROLE_ADMIN only).
      */
+    @Operation(summary = "Delete a user by ID",
+            security = @SecurityRequirement(name = "Bearer Token"))
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "User deleted"),
+            @ApiResponse(responseCode = "403", description = "Access denied — ROLE_ADMIN required"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     @DeleteMapping("/users/{id}")
     public ResponseEntity<?> deleteUser(
             @PathVariable Long id,

@@ -21,19 +21,25 @@ public class SecurityConfig {
 
     private final CustomUserDetailsService userDetailsService;
 
-    /**
-     * Auth service exposes public endpoints only — authentication itself.
-     * All /auth/** endpoints are open; no JWT filter needed here.
-     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())
-            .sessionManagement(session ->
-                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> auth
-                .anyRequest().permitAll()
-            );
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth
+                        // Allow Swagger UI and OpenAPI docs
+                        .requestMatchers(
+                                "/v3/api-docs",
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/swagger-resources/**",
+                                "/webjars/**"
+                        ).permitAll()
+                        // Allow all auth endpoints
+                        .anyRequest().permitAll()
+                );
 
         http.authenticationProvider(authenticationProvider());
         return http.build();

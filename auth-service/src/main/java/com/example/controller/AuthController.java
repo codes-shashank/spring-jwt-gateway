@@ -2,6 +2,10 @@ package com.example.controller;
 
 import com.example.model.AuthModels.*;
 import com.example.service.AuthService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +16,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
+@Tag(name = "Authentication", description = "User registration, login and token validation")
 public class AuthController {
 
     private final AuthService authService;
@@ -22,6 +27,11 @@ public class AuthController {
      *
      * Body: { "username": "alice", "password": "secret", "role": "ROLE_USER" }
      */
+    @Operation(summary = "Register a new user")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "User registered successfully"),
+            @ApiResponse(responseCode = "400", description = "Username already taken")
+    })
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
         try {
@@ -38,6 +48,11 @@ public class AuthController {
      *
      * Body: { "username": "alice", "password": "secret" }
      */
+    @Operation(summary = "Login and receive JWT token")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Login successful"),
+            @ApiResponse(responseCode = "401", description = "Invalid credentials")
+    })
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest request) {
         try {
@@ -53,6 +68,11 @@ public class AuthController {
      * GET /auth/validate?token=...
      * Used internally by the API Gateway to validate tokens.
      */
+    @Operation(summary = "Validate an existing JWT token")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Token is valid"),
+            @ApiResponse(responseCode = "401", description = "Token is invalid or expired")
+    })
     @GetMapping("/validate")
     public ResponseEntity<?> validate(@RequestParam("token") String token) {
         boolean valid = authService.validateToken(token);

@@ -1,6 +1,11 @@
 package com.example.controller;
 
 import com.example.model.UserProfile;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,6 +27,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/api/users")
+@Tag(name = "Users", description = "User profile operations")
 public class UserController {
 
     // In-memory sample data
@@ -35,6 +41,12 @@ public class UserController {
      * GET /api/users/profile
      * Returns the current authenticated user's profile (from gateway headers).
      */
+    @Operation(summary = "Get current user profile",
+            security = @SecurityRequirement(name = "Bearer Token"))
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Profile returned"),
+            @ApiResponse(responseCode = "401", description = "Token missing or invalid")
+    })
     @GetMapping("/profile")
     public ResponseEntity<?> getMyProfile(
             @RequestHeader(value = "X-Auth-Username", required = false) String username,
@@ -57,6 +69,9 @@ public class UserController {
      * GET /api/users
      * Returns all user profiles (any authenticated user).
      */
+    @Operation(summary = "Get all users",
+            security = @SecurityRequirement(name = "Bearer Token"))
+    @ApiResponse(responseCode = "200", description = "List of all users")
     @GetMapping
     public ResponseEntity<List<UserProfile>> getAllUsers(
             @RequestHeader(value = "X-Auth-Username", required = false) String requestingUser) {
@@ -68,6 +83,10 @@ public class UserController {
      * GET /api/users/{id}
      * Returns a specific user by ID.
      */
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "User found"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(
             @PathVariable("id") Long id,
